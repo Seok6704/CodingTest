@@ -13,16 +13,16 @@ int main()
     int n;
     cin >> n;
 
-    a.resize(n + 1, 0);
-    temp.resize(n + 1, 0);
+    a.resize(n, 0);
+    temp.resize(n, 0);
     swapC = 0;
 
-    for(int i = 1; i <= n; i++)
+    for(int i = 0; i < n; i++)
     {
         cin >> a[i];
     }
 
-    merge_sort(1, n);
+    merge_sort(0, n - 1);
 
     cout << swapC;
 }
