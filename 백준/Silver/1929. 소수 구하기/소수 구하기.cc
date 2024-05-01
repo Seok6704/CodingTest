@@ -9,28 +9,25 @@ int main()
     int m, n;
     cin >> m >> n;
 
-    vector<int> a;
-    a.resize(n + 1, 0);
-
-    for(int i = 2; i <= n; i++)
-    {
-        a[i] = i;
-    }
+    vector<bool> v;
+    v.resize(n + 1, true);
+    v[0] = false;
+    v[1] = false;
 
     for(int i = 2; i <= sqrt(n); i++)
     {
-        if(a[i] != 0)
+        if(v[i])
         {
-            for(int j = i + i; j <= n; j += i)
+            for(int j = i * i; j <= n; j += i)
             {
-                a[j] = 0;
+                v[j] = false;
             }
         }
     }
 
     for(int i = m; i <= n; i++)
     {
-        if(a[i] != 0) cout << a[i] << "\n";
+        if(v[i]) cout << i << "\n";
     }
 
 }
