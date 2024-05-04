@@ -37,7 +37,7 @@ int main()
         {
             for(int k = 1; k <= N; k++)
             {
-                if(K[j][k] > K[j][i] + K[k][i]) K[j][k] = K[j][i] + K[k][i];
+                if(K[j][k] > K[j][i] + K[k][i]) K[j][k] = K[j][i] + K[i][k];
             }
         }
     }
