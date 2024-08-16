@@ -1,16 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <math.h>
 
 using namespace std;
 
-#define INF 987654321
-
-void Dik(int K);
-
-static vector<vector<pair<int,int>>> A;
-static vector<bool> visited;
-static vector<int> dis;
+#define INF 1234567890
 
 int main()
 {
@@ -20,56 +15,51 @@ int main()
     int K;
     cin >> K;
 
-    A.resize(V + 1);
-    visited.resize(V + 1, false);
-    dis.resize(V + 1, INF);
+    vector<vector<pair<int, int>>> Node;
+    vector<int> W;
+    vector<bool> Visit;
+    Visit.resize(V + 1, false);
+    W.resize(V + 1, INF);
+    Node.resize(V + 1);
 
-    for(int i = 1; i <= E; i++)
+    for(int i = 0; i < E; i++)
     {
         int u, v, w;
         cin >> u >> v >> w;
 
-        A[u].push_back(make_pair(v, w));
+        Node[u].push_back(make_pair(v, w));
     }
 
-    Dik(K);
-
-    for(int i = 1; i <= V; i++)
-    {
-        if(visited[i])
-            cout << dis[i] << "\n";
-        else
-            cout << "INF" << "\n";
-    }
-
-}
-
-void Dik(int K)
-{
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> q;
-    dis[K] = 0;
     q.push(make_pair(0, K));
+    W[K] = 0;
 
     while(!q.empty())
     {
-        pair<int, int> current = q.top();
+        int n = q.top().second; // 다음 노드
+        int w = q.top().first; // 다음 노드까지의 가중치
         q.pop();
-        int now = current.second;
-        if(visited[now]) continue;
 
-        visited[now] = true;
+        if(Visit[n]) continue;
+        Visit[n] = true;
 
-        for(int i = 0; i < A[now].size(); i++)
+        for(int i = 0; i < Node[n].size(); i++)
         {
-            int next = A[now][i].first;
-            int ndis = A[now][i].second;
-
-            if(dis[next] > dis[now] + ndis)
+            // 다음 노드에서 이동할 목적지 중 현재까지의 가중치가 더 가벼울 경우
+            if(W[Node[n][i].first] > W[n] + Node[n][i].second)
             {
-                dis[next] = dis[now] + ndis;
-                q.push(make_pair(dis[next], next));
+                W[Node[n][i].first] = W[n] + Node[n][i].second;
+                q.push(make_pair(W[Node[n][i].first], Node[n][i].first));
             }
         }
-        
+    }
+
+    for(int i = 1; i <= V; i++)
+    {
+        if(Visit[i]) cout << W[i] << "\n";
+        else
+        {
+            cout << "INF" << "\n";
+        }
     }
 }
